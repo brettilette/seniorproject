@@ -10,15 +10,14 @@ api = Api(app)
 
 
 class CompanyInfo(Resource):
-    def get(self):
+    def get(self, company_name):
         #conn = db_connect.connect()
         #query = conn.execute("select trackid, name, composer, unitprice from tracks;")
         #result = {'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        result = ('First Name:','Jimothy','Last Name:','Simmons')
-        return jsonify(result)
+        return jsonify(firstName = 'Jimmothy',lastName = 'Simmons',companyName = company_name)
 
 
-api.add_resource(CompanyInfo, '/companyinfo')
+api.add_resource(CompanyInfo, '/companyinfo/<company_name>')
 
 
 if __name__ == '__main__':
