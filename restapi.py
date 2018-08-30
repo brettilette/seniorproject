@@ -18,7 +18,7 @@ class CompanyInfo(Resource):
 
 
 class CompanyInfoName(Resource):
-    def get(self,company_name):
+    def get(self, company_name):
         #conn = db_connect.connect()
         #query = conn.execute("select trackid, name, composer, unitprice from tracks;")
         result = "firstName = 'Jimmothy',lastName = 'Simmons',companyName = %s" %company_name
