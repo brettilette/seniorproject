@@ -16,15 +16,16 @@ class CompanyInfo(Resource):
         #result = {'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
         return jsonify(firstName = 'Jimmothy',lastName = 'Simmons',companyName = 'none')
 
-class CompanyInfo_Name(Resource):
+
+class CompanyInfoName(Resource):
     def get(self,company_name):
         #conn = db_connect.connect()
         #query = conn.execute("select trackid, name, composer, unitprice from tracks;")
-        #result = {'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(firstName = 'Jimmothy',lastName = 'Simmons',companyName = company_name)
+        result = "firstName = 'Jimmothy',lastName = 'Simmons',companyName = %s" %company_name
+        return jsonify(result)
 
 api.add_resource(CompanyInfo, '/companyinfo')
-api.add_resource(CompanyInfo_Name, '/companyinfo/<company_name>')
+api.add_resource(CompanyInfoName, '/companyinfo/<company_name>')
 
 
 if __name__ == '__main__':
