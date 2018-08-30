@@ -1,32 +1,25 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_restful import Resource, Api
-#from sqlalchemy import create_engine
-#from json import dumps
+# import neo4j
 
 
-#db_connect = create_engine('sqlite:///chinook.db')
-app = Flask(__name__)
-api = Api(app)
+# Connect to neo4j
+app = Flask(__name__) #initializing web framework
+api = Api(app)         #creating api
 
 
 class CompanyInfo(Resource):
-    def get(self):
-        #conn = db_connect.connect()
-        #query = conn.execute("select trackid, name, composer, unitprice from tracks;")
-        #result = {'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
-        return jsonify(firstName = 'Jimmothy',lastName = 'Simmons',companyName = 'none')
-
-
-class CompanyInfoName(Resource):
     def get(self, company_name):
-        #conn = db_connect.connect()
-        #query = conn.execute("select trackid, name, composer, unitprice from tracks;")
-        result = "firstName = 'Jimmothy',lastName = 'Simmons',companyName = %s" %company_name
-        return jsonify(result)
+        # create neo4j connection variable
+        # pass company_name to the web scraper
+        # result = store web scraper info
+        # store result in neo4j
+        result = "firstName='Jimmothy',lastName='Simmons',companyName=%s" %company_name # dummy result
+        return jsonify(result)      # return result in json format
 
-api.add_resource(CompanyInfo, '/companyinfo')
-api.add_resource(CompanyInfoName, '/companyinfo/<company_name>')
+
+api.add_resource(CompanyInfo, '/companyinfo/<company_name>')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # run api on 127.0.0.1:5002
     app.run(port='5002')
