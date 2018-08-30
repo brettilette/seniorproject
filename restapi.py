@@ -14,8 +14,8 @@ class CompanyInfo(Resource):
         # pass company_name to the web scraper
         # result = store web scraper info
         # store result in neo4j
-        result = "firstName='Jimmothy',lastName='Simmons',companyName=%s" %company_name # dummy result
-        return jsonify(result)      # return result in json format
+        # result = "firstName = 'Jimmothy',lastName = 'Simmons',companyName = %s" %company_name # dummy result
+        return jsonify(firstName = 'Jimmothy',lastName = 'Simmons',companyName = company_name)      # return result in json format
 
 
 api.add_resource(CompanyInfo, '/companyinfo/<company_name>')
