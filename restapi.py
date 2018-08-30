@@ -8,6 +8,12 @@ app = Flask(__name__) #initializing web framework
 api = Api(app)         #creating api
 
 
+class Config(object):
+    JSONIFY_PRETTYPRINT_REGULAR = True
+
+
+app.config.from_object(Config)
+
 class CompanyInfo(Resource):
     def get(self, company_name):
         # create neo4j connection variable
