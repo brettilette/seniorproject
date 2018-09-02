@@ -26,7 +26,7 @@ class GetLinkedInEmployees(Resource):
         cypher += "RETURN %s.name, %s.created, %s.LinkedInModded" % (project_name, project_name, project_name)
         result = session.run(cypher)
         session.close()
-        return jsonify(result)      # replace w/result
+        return result      # replace w/result
 
 
 api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<project_name>/<company_name>')
