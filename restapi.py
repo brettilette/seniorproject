@@ -23,7 +23,7 @@ class GetLinkedInEmployees(Resource):
         cypher = "MERGE ( %s:Tag { name: %s } )\n" % (project_name, project_name)
         cypher += "ON CREATE SET %s.created = timestamp() + 'LinkedIn'\n" % (project_name)
         cypher += "ON MATCH SET %s.LinkedInModded = timestamp()\n" % (project_name)
-        cypher += "RETURN %s.name, %s.created, %s.LinkedInModded" % (project_name)
+        cypher += "RETURN %s.name, %s.created, %s.LinkedInModded" % (project_name, project_name, project_name)
         result = session.run(cypher)
         session.close()
         return jsonify(result)      # replace w/result
