@@ -20,16 +20,24 @@ app.config.from_object(Config)
 class GetLinkedInEmployees(Resource):
     def get(self, project_name,company_name):
         session = driver.session()
-        cypher = "MERGE ( %s:Tag { name: '%s' } )\n" % (project_name, project_name)
-        cypher += "ON CREATE SET %s.created = timestamp() + ' by LinkedIn'\n" % (project_name)
-        cypher += "ON MATCH SET %s.LinkedInModded = timestamp()\n" % (project_name)
-        cypher += "RETURN %s.name, %s.created, %s.LinkedInModded" % (project_name, project_name, project_name)
+
+        cypher = "MATCH ( %s:tag {name: '%s' } )," % (project_name)
+        cypher += " ( %s:Company { name: '%s'})" % (company_name)
+        cypher += "MERGE (%s) - [r: HAS_TAG] -> (%s)" % (project_name, company_name)
+        cypher += "ON CREATE SET %s.created = timestamp() + ' by LinkedIn'," % (project_name)
+        cypher += " %s.created = timestamp() + ' by LinkedIn'" % (company_name)
+        cypher += "ON MATCH SET %s.LinkedInModded = timestamp()," % (project_name)
+        cypher += " %s.LinkedInModded = timestamp()" % (company_name)
+        cypher += "RETURN %s.name, type(r), %s.name" % (project_name, company_name)
+
         query = session.run(cypher)
         session.close()
 
         results = []
         for result in query:
-            results.append({"tag.name:": result["%s.name" % (project_name)], "tag.created:": result["%s.created" % (project_name)], "tag.LinkedInModded:": result["%s.LinkedInModded" % (project_name)]})
+            results.append({"tag.name:": result["%s.name" % (project_name)],
+                            "has.relationship:": result["type(r)"],
+                            "tag.name:": result["%s.name" % (company_name)]})
         return jsonify(results)      # replace w/result
 
 
