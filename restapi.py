@@ -21,8 +21,8 @@ class GetLinkedInEmployees(Resource):
     def get(self, project_name,company_name):
         session = driver.session()
 
-        cypher = "MATCH ( %s:tag {name: '%s' } )," % (project_name)
-        cypher += " ( %s:Company { name: '%s'})" % (company_name)
+        cypher = "MATCH ( %s:tag {name: '%s' } )," % (project_name, project_name)
+        cypher += " ( %s:Company { name: '%s'})" % (company_name, company_name)
         cypher += "MERGE (%s) - [r: HAS_TAG] -> (%s)" % (project_name, company_name)
         cypher += "ON CREATE SET %s.created = timestamp() + ' by LinkedIn'," % (project_name)
         cypher += " %s.created = timestamp() + ' by LinkedIn'" % (company_name)
