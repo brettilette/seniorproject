@@ -22,12 +22,12 @@ class GetLinkedInEmployees(Resource):
         session = driver.session()
 
         cypher = "MERGE ( %s:tag {name: '%s' } )," % (project_name, project_name)
-        cypher += " ( %s:Company { name: '%s'})" % (company_name, company_name)
-        cypher += "MERGE (%s) - [r: HAS_TAG] -> (%s)" % (project_name, company_name)
+        cypher += " ( %s:Company { name: '%s'})\n" % (company_name, company_name)
+        cypher += "MERGE (%s) - [r: HAS_TAG] -> (%s)\n" % (project_name, company_name)
         cypher += "ON CREATE SET %s.created = timestamp() + ' by LinkedIn'," % (project_name)
-        cypher += " %s.created = timestamp() + ' by LinkedIn'" % (company_name)
+        cypher += " %s.created = timestamp() + ' by LinkedIn'\n" % (company_name)
         cypher += "ON MATCH SET %s.LinkedInModded = timestamp()," % (project_name)
-        cypher += " %s.LinkedInModded = timestamp()" % (company_name)
+        cypher += " %s.LinkedInModded = timestamp()\n" % (company_name)
         cypher += "RETURN %s.name, type(r), %s.name" % (project_name, company_name)
 
         query = session.run(cypher)
