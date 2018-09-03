@@ -24,9 +24,13 @@ class GetLinkedInEmployees(Resource):
         cypher += "ON CREATE SET %s.created = timestamp() + 'LinkedIn'\n" % (project_name)
         cypher += "ON MATCH SET %s.LinkedInModded = timestamp()\n" % (project_name)
         cypher += "RETURN %s.name, %s.created, %s.LinkedInModded" % (project_name, project_name, project_name)
-        result = session.run(cypher)
+        query = session.run(cypher)
         session.close()
-        return result      # replace w/result
+
+        results = []
+        for result in query:
+            results.append({"tag.name:": result["%s.name" % (project_name)], "tag.created:": result["%s.created" % (project_name)], "tag.LinkedInModded:": result["%s.LinkedInModded" % (project_name)]})
+        return jsonify(results)      # replace w/result
 
 
 api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<project_name>/<company_name>')
