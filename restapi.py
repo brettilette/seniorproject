@@ -15,12 +15,12 @@ class Config(object):                       # Config for FLASK
 app.config.from_object(Config)
 
 class GetLinkedInEmployees(Resource):
-    def get(self, project_name,company_name):
+    def get(self, company_name):
         results = "Call the scraper and get a result"
         return jsonify(results)      # replace w/result
 
 
-api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<project_name>/<company_name>')
+api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
 
 
 if __name__ == '__main__':  # run api on 127.0.0.1:5002
