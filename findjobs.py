@@ -15,13 +15,13 @@ def find_jobs():
 
 
 def look_for_companies():
-    results = []
 
     session = driver.session()
-    query = session.run("Match (c)-[:HAS_TAG]->(t)\nWHERE c:Company AND t:Tag AND size((c)-[:]-()) = 1\nRETURN id(c)")
+    cypher = """MATCH (c:Company)
+    RETURN id(c) AS job"""
+    query = session.run(cypher)
     session.close()
 
-    for job in query:
-        results.append(job)
+    results = [job["job"] for job in query]
 
     return results

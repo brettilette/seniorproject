@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
+import json
 
 
 
@@ -14,10 +15,11 @@ class Config(object):                       # Config for FLASK
 
 app.config.from_object(Config)
 
+
 class GetLinkedInEmployees(Resource):
     def get(self, company_name):
-        results = "Call the scraper and get a result"
-        return jsonify(results)      # replace w/result
+        results = """{"people":[{"fname":"Jimothy","lname":"Simmons","company":"%s","url":"linkedin.com/in/jimothy-simmons"},{"fname": "Simothy","lname":"Jimmons","company":"%s","url":"linkedin.com/in/simothy-jimmons"}]}""" % (company_name,company_name)
+        return json.loads(results)      # replace w/result
 
 
 api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
