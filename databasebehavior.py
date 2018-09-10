@@ -6,7 +6,7 @@ from workerbehavior import  find_node_type, do_work
 
 
 logging.basicConfig(filename='databasebehaivor.log',level=logging.DEBUG)
-numberOfThreads = 3
+numberOfThreads = 1
 
 
 class Worker(Thread):

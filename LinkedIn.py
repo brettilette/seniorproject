@@ -11,6 +11,7 @@ from time import sleep
 import pandas as pd
 import requests
 import bs4
+from secrets import *
 
 company_name = "Cybriant"
 num_pages = 5
@@ -41,9 +42,9 @@ def linkedin_sign_in(browser):
     '''
     browser.get("https://www.linkedin.com/uas/login?_l=en")
     sleep(randint(0,5))
-    browser.find_element_by_id("session_key-login").send_keys("phalapel@gmail.com")
+    browser.find_element_by_id("session_key-login").send_keys(LINKEDIN_LOGON)
     sleep(randint(0,5))
-    browser.find_element_by_id("session_password-login").send_keys("Q!W@E#R$T%")
+    browser.find_element_by_id("session_password-login").send_keys(LINKEDIN_PASS)
     browser.find_element_by_id("btn-primary").click()
     
 def pull_data(browser, url_list, company_name):
@@ -68,10 +69,12 @@ def pull_data(browser, url_list, company_name):
 
     return pd.DataFrame(main, columns = ['URL', 'FirstName', 'LastName', 'Company', 'Searched Term'])
 
-url_list = google_profile_pull(company_name, num_pages)
-browser = webdriver.Chrome()    
-data = pull_data(browser, url_list, company_name)
-datajson = data.to_json()
+
+def FindEmployees(company):
+    url_list = google_profile_pull(company, num_pages)
+    browser = webdriver.Chrome(CHROMEDRIVER_PATH)
+    data = pull_data(browser, url_list, company_name)
+    return data.to_json(orient='records')
 
 # =============================================================================
 # GET ALL LINKS FROM URL (NON JS)
