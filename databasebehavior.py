@@ -23,6 +23,8 @@ class Worker(Thread):
                 do_work(job,type)           # Look in the database to get the rules for working on a node of that type
                                             # If permission is given, contact the api and request info
                                             # Finally, add any new information to the database
+            except IndexError:
+                return
             finally:
                 self.queue.task_done()
 

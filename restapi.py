@@ -19,9 +19,9 @@ app.config.from_object(Config)
 
 class GetLinkedInEmployees(Resource):
     def get(self, company_name):
-        results = FindEmployees(company_name)# """{"people":[{"fname":"Jimothy","lname":"Simmons","company":"%s","url":"linkedin.com/in/jimothy-simmons"},{"fname": "Simothy","lname":"Jimmons","company":"%s","url":"linkedin.com/in/simothy-jimmons"}]}""" % (company_name,company_name)
+        results = FindEmployees(company_name)
         results = """{"items": """ + results + "}"
-        return json.loads(results)      # replace w/result
+        return json.loads(results)
 
 
 api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
