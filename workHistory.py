@@ -37,27 +37,27 @@ def dateParser(date):
     if date[0] == 'Jan':
         returnArray[2] = 1
     elif date[0] == 'Feb':
-        returnArray = 2 
+        returnArray[2] = 2 
     elif date[0] == 'Mar':
-        returnArray = 3 
+        returnArray[2] = 3 
     elif date[0] == 'Apr':
-        returnArray = 4 
+        returnArray[2] = 4 
     elif date[0] == 'May':
-        returnArray = 5 
+        returnArray[2] = 5 
     elif date[0] == 'Jun':
-        returnArray = 6 
+        returnArray[2] = 6 
     elif date[0] == 'Jul':
-        returnArray = 7 
+        returnArray[2] = 7 
     elif date[0] == 'Aug':
-        returnArray = 8 
+        returnArray[2] = 8 
     elif date[0] == 'Sept' or date[0] == 'Sep':
-        returnArray = 9 
+        returnArray[2] = 9 
     elif date[0] == 'Oct':
-        returnArray = 10 
+        returnArray[2] = 10 
     elif date[0] == 'Nov':
-        returnArray = 11 
+        returnArray[2] = 11 
     elif date[0] == 'Dec':
-        returnArray = 12
+        returnArray[2] = 12
 
     returnArray[0] == date[1] 
     return returnArray
