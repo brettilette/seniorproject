@@ -3,7 +3,6 @@ python -m pip install --upgrade pip
 pip install
     flask
     flask_restful
-    json
     neo4j-driver
     requests
     selenium
