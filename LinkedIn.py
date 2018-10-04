@@ -20,6 +20,7 @@ def google_profile_pull(company_name, num_pages):
     '''
     Scrapes google for the first *pages* pages of results LinkedIn users 
     associated with *company_name* and returns a list of the URLs.
+    TODO: Add duplicate removal line using set
     '''
     url_list = []
     print("Now searching Google for " + company_name + " employees...")
@@ -54,21 +55,30 @@ def pull_data(browser, url_list, company_name):
     '''
     linkedin_sign_in(browser)
     main = []
-    for url in url_list:
+    for i, url in enumerate(url_list):
+        job_length = []
         try:
             browser.get(url)
+            sleep(randint(5,10))
             HTML = browser.page_source
             soup = bs4.BeautifulSoup(HTML, 'lxml')
-            name = soup.select('h1[class="pv-top-card-section__name Sans-26px-black-85%"]')[0].get_text().strip()
-            fname, lname = name.split(" ")
+            name = soup.select('h1[class="pv-top-card-section__name inline Sans-26px-black-85%"]')[0].get_text().strip()
+            fname, lname = name.split(" ")           
             company = soup.select('span[class="pv-top-card-v2-section__entity-name pv-top-card-v2-section__company-name text-align-left ml2 Sans-15px-black-85%-semibold lt-line-clamp lt-line-clamp--multi-line ember-view"]')[0].get_text().strip()
-            print(fname + " " + lname + " " + company)
-            main.append([url, fname, lname, company, company_name])
+            print(str(i) + ". " + fname + " " + lname + " " + company)
+            for i in range(5):
+                try:
+                    job_length.append(str(soup.select('span[class="pv-entity__bullet-item-v2"]')[i].get_text()))
+                except:
+                    print(fname + " had less than 5 past experiences.")
+                    break
+            print(job_length)
+            main.append([url, fname, lname, company, company_name, job_length])
         except:
-            print("Mission failed. We'll get em next time.")
+            print(str(i) + ". Mission failed. We'll get em next time: ")
+            print(str(url))
 
-    return pd.DataFrame(main, columns = ['URL', 'FirstName', 'LastName', 'Company', 'Searched Term'])
-
+    return pd.DataFrame(main, columns = ['URL', 'FirstName', 'LastName', 'Company', 'Searched Term', 'Job Length'])
 
 def FindEmployees(company):
     url_list = google_profile_pull(company, num_pages)
@@ -82,4 +92,13 @@ def FindEmployees(company):
 # for link in soup.findAll('a'):
 #     print(link)
 #     print("--------------")
+# =============================================================================
+    
+# ITERATE UNTIL IT FAILS?
+# =============================================================================
+# experience_position_titles = soup.select('h3[class="Sans-17px-black-85%-semibold"]')[0].get_text()
+# 
+# experience_company = soup.select('h4[class="Sans-17px-black-85%"]')[0].get_text()
+# 
+# times_spent_at_job = soup.select('span[class="pv-entity__bullet-item-v2"]')[0].get_text()
 # =============================================================================
