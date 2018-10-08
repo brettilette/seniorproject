@@ -1,5 +1,13 @@
 import pyHIBP
 
+def is_breached(email):
+    resp = pyHIBP.get_account_breaches(account=email, truncate_response=True)
+    if resp:
+        return True
+    else:
+        return False
+
+    
 # Required import if password check is implemented
 # from pyHIBP import pwnedpasswords as pw
 
@@ -11,10 +19,3 @@ import pyHIBP
 #    print("This password was used " + str(resp) + " time(s) before.")
 
 # Get breaches that affect a given account
-
-def IsBreached(email):
-    resp = pyHIBP.get_account_breaches(account=email, truncate_response=True)
-    if resp:
-        return True
-    else:
-        return False
