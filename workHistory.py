@@ -1,14 +1,14 @@
 from datetime import date
+import datetime
 import statistics
 
-#returns an array with the average at 0 and the stdDev at 1
+#returns a string with the output
 def workHistoryAnalyser(workHistory):
     dateProcessing = None
     startDateParse = []
     endDateParse = []
     tempArray = []
     days = []
-    returnArray = []
     
     for x in workHistory:
         dateProcessing = x.split('-')
@@ -16,15 +16,22 @@ def workHistoryAnalyser(workHistory):
 
         startDateParse.append(dateParse[0])
         startDateParse.append(dateParse[1])
-        endDateParse.append(dateParse[3])
-        endDateParse.append(dateParse[4])
+        if len(dateParse) > 4:
+            endDateParse.append(dateParse[3])
+            endDateParse.append(dateParse[4])
+        else:
+            endDateParse.append(dateParse[3])
 
         tempArray = dateParser(startDateParse)
         startDate = date(tempArray[0], tempArray[1], tempArray[2])
         tempArray = []
 
-        tempArray = dateParser(endDateParse)
-        endDate = date(tempArray[0], tempArray[1], tempArray[2])
+        if len(dateParse) > 4:
+            tempArray = dateParser(endDateParse)
+            endDate = date(tempArray[0], tempArray[1], tempArray[2])
+        else:
+            tempEndDate = datetime.datetime.now()
+            endDate = date(int(tempEndDate.year), int(tempEndDate.month), int(tempEndDate.day))
 
         days.append(abs(endDate-startDate).days)
         
@@ -33,10 +40,23 @@ def workHistoryAnalyser(workHistory):
     
     average = sum(days)/len(days)
     stdDev = statistics.stdev(days)
-    returnArray.append(average)
-    returnArray.append(stdDev)
+    
+    isAnnomolous = average - stdDev
+    annomolousPos = []
+    count = 0
 
-    return returnArray
+    for y in days:
+        if (y < isAnnomolous):
+            annomolousPos.append(count)
+        count += 1
+
+    returnString = "The average amount of days worked is " + str(average) + " days with a standard deviation of " + str(stdDev) + "."
+    for z in annomolousPos:
+        returnString += "\nAnnomolous work history data at index [" + str(z) + "]. Only " + str(days[z]) + " days worked at this job." 
+
+    print(returnString)
+
+    return returnString
 
 def dateParser(date):
     #Year, Month, Day
@@ -69,6 +89,6 @@ def dateParser(date):
     returnArray[0] = int(date[1]) 
     return returnArray
 
-#testData = ["Oct 2014 – Jun 2018", "Jun 2018 – Aug 2018"]
+#testData = ["Jan 2007 – Nov 2010", "Nov 2010 – Oct 2014", "Oct 2014 – Jun 2018", "Jun 2018 – Aug 2018", "Aug 2018 – Present"]
 
 #workHistoryAnalyser(testData)
