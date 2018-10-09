@@ -1,14 +1,15 @@
 from datetime import date
 import statistics
 
-#returns an array with the average at 0 and the stdDev at 1
-def workHistoryAnalyser(workHistory):
+#returns a boolean value stating whether an anomaly was found
+def workHistoryAnomaly(workHistory, targetSignifier):
     dateProcessing = None
+    anomaly = False
+    targetLocation = targetSignifier.index(1)
     startDateParse = []
     endDateParse = []
     tempArray = []
     days = []
-    returnArray = []
     
     for x in workHistory:
         dateProcessing = x.split('-')
@@ -31,12 +32,15 @@ def workHistoryAnalyser(workHistory):
         startDateParse = []
         endDateParse = []
     
+    targetDays = days[targetLocation]
+    del days[targetLocation]
     average = sum(days)/len(days)
     stdDev = statistics.stdev(days)
-    returnArray.append(average)
-    returnArray.append(stdDev)
+    threshold = average - stdDev
+    if targetDays < threshold :
+        anomaly = True
 
-    return returnArray
+    return anomaly
 
 def dateParser(date):
     #Year, Month, Day
@@ -69,6 +73,7 @@ def dateParser(date):
     returnArray[0] = int(date[1]) 
     return returnArray
 
-#testData = ["Oct 2014 – Jun 2018", "Jun 2018 – Aug 2018"]
-
-#workHistoryAnalyser(testData)
+#testData = ["Oct 1990 – Jun 1995", "Jun 1995 – Aug 2000", "Aug 2000 – May 2005", "May 2005 – Jul 2010", "Jul 2010 – Sept 2011"]
+#testSignifier = [0,0,0,0,1]
+    
+#workHistoryAnomaly(testData,testSignifier)
