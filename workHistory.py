@@ -41,18 +41,18 @@ def workHistoryAnalyser(workHistory):
     average = sum(days)/len(days)
     stdDev = statistics.stdev(days)
     
-    isAnnomolous = average - stdDev
-    annomolousPos = []
+    isAnomalous = average - stdDev
+    anomalousPos = []
     count = 0
 
     for y in days:
-        if (y < isAnnomolous):
-            annomolousPos.append(count)
+        if (y < isAnomalous):
+            anomalousPos.append(count)
         count += 1
 
     returnString = "The average amount of days worked is " + str(average) + " days with a standard deviation of " + str(stdDev) + "."
-    for z in annomolousPos:
-        returnString += "\nAnnomolous work history data at index [" + str(z) + "]. Only " + str(days[z]) + " days worked at this job." 
+    for z in anomalousPos:
+        returnString += "\nAnomalous work history data at index [" + str(z) + "]. Only " + str(days[z]) + " days worked at this job." 
 
     print(returnString)
 
