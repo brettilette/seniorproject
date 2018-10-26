@@ -38,7 +38,7 @@ def do_work(job, type):
         if results[0] >= linkedin_timeout_in_seconds or results[0] == -1:
             name = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.name", id=job)
             names = [result["n.name"] for result in name]
-            json = requests.get('http://127.0.0.1/get/linkedin/employees/%s' % (names[0]))
+            json = requests.get('http://127.0.0.1:8000/get/linkedin/employees/%s' % (names[0]))
 
             query = """WITH {json} as data
             UNWIND data.items as person

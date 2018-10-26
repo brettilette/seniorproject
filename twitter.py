@@ -68,5 +68,5 @@ def getTweets(handle = '', startDate = '', keyword = ''):
 	outputJSON = json.dumps(outputTweets)
 	return outputJSON
 
-res = getTweets('@CybriantMSSP','10-1-2018', 'security')
-print(res)
+#res = getTweets('@CybriantMSSP','10-1-2018', 'security')
+#print(res)
