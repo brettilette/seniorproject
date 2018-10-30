@@ -1,4 +1,4 @@
-Python 3.5 or greater
+Python 3.5 or 3.6
 python -m pip install --upgrade pip
 pip install
     flask
