@@ -5,7 +5,7 @@ from findjobs import find_jobs
 from workerbehavior import  find_node_type, do_work
 
 
-logging.basicConfig(filename='databasebehaivor.log',level=logging.DEBUG)
+logging.basicConfig(filename='databasebehavior.log',level=logging.DEBUG)
 numberOfThreads = 1
 
 
