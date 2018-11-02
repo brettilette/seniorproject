@@ -119,13 +119,11 @@ def FindEmployees(company):
 #     options = Options()
 #     options.headless = True
 #     driver = webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
-#     
 # =============================================================================
     browser = webdriver.Chrome(CHROMEDRIVER_PATH)
     data = pull_data(browser, url_list, company)
-    return data
     browser.close()
-    # return data.to_json(orient='records') 
+    return data.to_json(orient='records') 
 
 
 
