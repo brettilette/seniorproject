@@ -15,7 +15,7 @@ import requests
 import bs4
 from secrets import *
 
-num_pages = 1 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
+num_pages = 5 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
 
 def google_profile_pull(company_name, num_pages):
     '''
