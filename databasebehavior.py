@@ -2,7 +2,7 @@ import logging
 from queue import Queue
 from threading import Thread
 from findjobs import find_jobs
-from workerbehavior import  find_node_type, do_work
+from workerbehavior import do_work
 
 
 logging.basicConfig(filename='databasebehavior.log',level=logging.DEBUG)
@@ -19,8 +19,7 @@ class Worker(Thread):
         while True:
             job = self.queue.get()          # Get the id of the node that needs attention
             try:
-                type = find_node_type(job)  # Get the type of the node that is being worked on
-                do_work(job,type)           # Look in the database to get the rules for working on a node of that type
+                do_work(job)           # Look in the database to get the rules for working on a node of that type
                                             # If permission is given, contact the api and request info
                                             # Finally, add any new information to the database
             except IndexError:

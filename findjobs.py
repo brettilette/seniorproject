@@ -8,8 +8,12 @@ def find_jobs():
     jobs = []
 
     results = look_for_companies()
-    for job in results:
-        jobs.append(job)
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("LinkedIn")
+            jobs.append(job)
 
     return jobs
 

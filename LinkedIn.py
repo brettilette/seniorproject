@@ -15,7 +15,7 @@ import requests
 import bs4
 from secrets import *
 
-num_pages = 5 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
+num_pages = 3 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
 
 def google_profile_pull(company_name, num_pages):
     '''
@@ -109,7 +109,7 @@ def pull_data(browser, url_list, company_name):
             print(str(i) + ". Mission failed. We'll get em next time: ")
             print("\t" + str(url))
 
-    return pd.DataFrame(main, columns = ['URL', 'FirstName', 'LastName', 'Company', 'Searched Term', 'Dayes Employed', 'Job Length'])
+    return pd.DataFrame(main, columns = ['URL', 'FirstName', 'LastName', 'Company', 'SearchedTerm', 'DatesEmployed', 'JobLength'])
 
 def FindEmployees(company):
     url_list = google_profile_pull(company, num_pages)
