@@ -15,7 +15,7 @@ import requests
 import bs4
 from secrets import *
 
-num_pages = 3 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
+num_pages = 2 # Hard Coded Number of Pages - This number can be changed in the future based off company size (1 page ~ 10 people)
 
 def google_profile_pull(company_name, num_pages):
     '''
@@ -120,7 +120,10 @@ def FindEmployees(company):
 #     options.headless = True
 #     driver = webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
 # =============================================================================
-    browser = webdriver.Chrome(CHROMEDRIVER_PATH)
+    options = webdriver.ChromeOptions()
+    options.binary_location = CHROMEDRIVER_PATH
+    options.add_argument('headless')
+    browser = webdriver.Chrome(chrome_options=options)
     data = pull_data(browser, url_list, company)
     browser.close()
     return data.to_json(orient='records') 
