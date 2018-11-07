@@ -116,8 +116,8 @@ def FindEmployees(company):
     
     # Final Version Should Run Headless
 # =============================================================================
-    options = Options()
-    options.headless = True
+    options = webdriver.chrome.options.Options
+    options.set_headless(headless=True)
     browser = webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
 # =============================================================================
 
