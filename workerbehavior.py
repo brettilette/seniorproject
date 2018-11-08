@@ -1,9 +1,10 @@
 from neo4j.v1 import GraphDatabase, basic_auth
 from secrets import *
 import requests
+import bs4
+import nltk
 
 driver = GraphDatabase.driver(BOLT_ADDRESS, auth=basic_auth(DB_NAME, DB_AUTH))
-
 
 
 def do_work(job):
@@ -12,6 +13,9 @@ def do_work(job):
 
     if job[1] == "TwitterNew":
         twitter_new_module(job[0])
+
+    if job[1] == "Sentiment":
+        sentiment_module(job[0])
 
 
 def linkedin_module(job):
@@ -65,7 +69,7 @@ def twitter_new_module(job):
             WHERE id(c) = {id}
             SET c.LastSeenByTwitter = datetime()
             MERGE (tw:Tweet {id: tweet.id, text: tweet.text})
-            ON CREATE SET tw.created = datetime(), tw.createdBy = 'TwitterNew'
+            ON CREATE SET tw.created = datetime(), tw.createdBy = 'TwitterNew', tw.LastSeenByTwitter = datetime()
             ON MATCH SET tw.LastSeenByTwitter = datetime()
             MERGE (tw)-[:HAS_TAG]->(t)
             MERGE (c)-[:HAS_TWEET]->(tw)"""
@@ -80,16 +84,21 @@ def sentiment_module(job):
 
     text = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.text", id=job)
     texts = [result["n.text"] for result in text]
-    json = requests.get('http://127.0.0.1:8000/get/sentiment/%s' % (texts[0]))
 
-    query = """WITH {json} as data
-            UNWIND data.items as sentiment
-            MATCH (c)-[:HAS_TAG]->(t:Tag)
-            WHERE id(c) = {id}
-            SET c.LastSeenBySentiment = datetime(),
-            c.polarity = sentiment.polarity,
-            c.subjectivity = sentiment.subjectivity"""
+    soup = bs4.BeautifulSoup(texts[0], "lxml").get_text()
+    input = nltk.Text(soup)
 
-    session.run(query, json=json.json(), id=job)
+    json = requests.get('http://127.0.0.1:8000/get/sentiment/%s' % (input.concordance))
+
+    if json.status_code == 200:
+        query = """WITH {json} as data
+                UNWIND data.items as sentiment
+                MATCH (c)-[:HAS_TAG]->(t:Tag)
+                WHERE id(c) = {id}
+                SET c.LastSeenBySentiment = datetime(),
+                c.polarity = sentiment.polarity,
+                c.subjectivity = sentiment.subjectivity"""
+
+        session.run(query, json=json.json(), id=job)
 
     session.close()
