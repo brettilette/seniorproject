@@ -11,5 +11,7 @@ pip install
     lxml
     pyHIBP
     tweepy
+    textblob
 secrets.py
 selenium chromedriver
+google-chrome (installed and in PATH)

@@ -10,6 +10,9 @@ def do_work(job):
     if job[1] == "LinkedIn":
         linkedin_module(job[0])
 
+    if job[1] == "TwitterNew":
+        twitter_new_module(job[0])
+
 
 def linkedin_module(job):
     session = driver.session()
@@ -46,5 +49,47 @@ def linkedin_module(job):
                     MERGE (p)-[:WORKED_FOR]->(c)"""
 
     session.run(query, id=job)
+
+    session.close()
+
+def twitter_new_module(job):
+    session = driver.session()
+
+    handle = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.handle", id=job)
+    handles = [result["n.handle"] for result in handle]
+    json = requests.get('http://127.0.0.1:8000/get/twitter/tweets/%s' % (handles[0]))
+
+    query = """WITH {json} as data
+            UNWIND data.items as tweet
+            MATCH (c)-[:HAS_TAG]->(t:Tag)
+            WHERE id(c) = {id}
+            SET c.LastSeenByTwitter = datetime()
+            MERGE (tw:Tweet {id: tweet.id, text: tweet.text})
+            ON CREATE SET tw.created = datetime(), tw.createdBy = 'TwitterNew'
+            ON MATCH SET tw.LastSeenByTwitter = datetime()
+            MERGE (tw)-[:HAS_TAG]->(t)
+            MERGE (c)-[:HAS_TWEET]->(tw)"""
+
+    session.run(query, json=json.json(), id=job)
+
+    session.close()
+
+
+def sentiment_module(job):
+    session = driver.session()
+
+    text = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.text", id=job)
+    texts = [result["n.text"] for result in text]
+    json = requests.get('http://127.0.0.1:8000/get/sentiment/%s' % (texts[0]))
+
+    query = """WITH {json} as data
+            UNWIND data.items as sentiment
+            MATCH (c)-[:HAS_TAG]->(t:Tag)
+            WHERE id(c) = {id}
+            SET c.LastSeenBySentiment = datetime(),
+            c.polarity = sentiment.polarity,
+            c.subjectivity = sentiment.subjectivity"""
+
+    session.run(query, json=json.json(), id=job)
 
     session.close()
