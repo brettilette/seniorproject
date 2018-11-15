@@ -85,8 +85,10 @@ def sentiment_module(job):
     text = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.text", id=job)
     texts = [result["n.text"] for result in text]
 
-    soup = bs4.BeautifulSoup(texts[0], "lxml").get_text()
+    soup = bs4.BeautifulSoup(texts[0]).get_text()
     input = nltk.Text(soup)
+
+    print(soup)
 
     json = requests.get('http://127.0.0.1:8000/get/sentiment/%s' % (input.concordance))
 

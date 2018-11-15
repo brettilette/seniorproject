@@ -75,5 +75,5 @@ api.add_resource(GetTweets, '/get/twitter/tweets/<handle>')
 api.add_resource(GetSentiment, '/get/sentiment/<text>')
 
 
-if __name__ == '__main__':  # run api on 127.0.0.1:5002
+if __name__ == '__main__':
     app.run(port='8000')
