@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/base.css') }}">
+<title>{{ title }} - Website</title>
+</head>
+<body>
+
+<div class="header">
+  <h2>Company Sentiment Analyzer</h2>
+  <p>{{title}}</p>
+</div>
+
+<div id="navbar">
+  <a href="#" onclick="homeLoc()">Home</a>
+  <a href="#" onclick="dashLoc()" >Dashboard</a>
+</div>
+
+<div class="content">
+{% block content %} {% endblock %}
+</div>
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+function homeLoc() {
+    location.replace("home")
+}
+
+function dashLoc() 
+{
+    location.replace("dashboard")
+}
+function viewProjectLoc() 
+{
+    location.replace("viewProject")
+}
+function createProjectLoc() 
+{
+    location.replace("createProject")
+}
+function editProjectLoc() 
+{
+    location.replace("editProject")
+}
+</script>
+</body>
+</html>
