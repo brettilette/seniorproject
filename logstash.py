@@ -23,9 +23,9 @@ def grab_data():
     results = [polarity["polarity"] for polarity in query]
     somejson = """{"sentiment": ["""
     for result in results:
-        some_string = """{"polarity": %s}""" % (result)
+        some_string = """{"polarity": %s},""" % (result)
         somejson += some_string
-
+    somejson = somejson[:-1]
     somejson += """]}"""
     return json.loads(somejson)  # TODO put in JSON format before returning
 
@@ -33,7 +33,7 @@ def grab_data():
 def send_to_logstash(payload):
     """Send the JSON of data from Neo4J to Logstash so it can be sent to kibana"""
 
-    r = requests.post(URL,json=payload,headers=HEADER)
+    r = requests.post(URL,json=payload)
     return r.json()
 
 
@@ -42,5 +42,4 @@ def update_kibana():
 
 
 if __name__ == '__main__':
-    # update_kibana()
-    print(grab_data())
+    update_kibana()
