@@ -16,13 +16,18 @@ def grab_data():
 
     session = driver.session()
     # TODO Come up with appropriate cypher query
-    cypher = """"""
+    cypher = """MATCH (t:Tweet) WHERE NOT t.polarity = "0.0" return t.polarity as polarity"""
     query = session.run(cypher)
     session.close()
 
-    results = [job["job"] for job in query]
+    results = [polarity["polarity"] for polarity in query]
+    somejson = """{"sentiment": ["""
+    for result in results:
+        some_string = """{"polarity": %s}""" % (result)
+        somejson += some_string
 
-    return results  # TODO put in JSON format before returning
+    somejson += """]}"""
+    return json.loads(somejson)  # TODO put in JSON format before returning
 
 
 def send_to_logstash(payload):
@@ -37,4 +42,5 @@ def update_kibana():
 
 
 if __name__ == '__main__':
-    update_kibana()
+    # update_kibana()
+    print(grab_data())
