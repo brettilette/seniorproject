@@ -1,9 +1,16 @@
 body {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
   font-family: Arial, Helvetica, sans-serif;
 }
-
+.input {
+    size: 32px;
+    padding: 10px 18px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 .header {
   background-color: #333;
   color: #f2f2f2;
@@ -69,7 +76,7 @@ body {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-.buttonCreate{
+.buttonSubmit{
   background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
@@ -78,7 +85,7 @@ body {
     cursor: pointer;
     width: auto;
 }
-.buttonCreate::hover {opacity: 0.8;}
+.buttonSubmit:hover {opacity: 0.8;}
 .buttonCancel {
     width: auto;
     background-color: #f44336;

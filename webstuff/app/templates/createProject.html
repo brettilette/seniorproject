@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div id="navbar">
+  <a href="{{ url_for('home') }}" >Home</a>
+  <a href="{{ url_for('dashboard') }}" >Dashboard</a>
+  <a style = "float: right;" href="{{ url_for('login') }}">Logout</a>
+</div>
 {% endblock %}

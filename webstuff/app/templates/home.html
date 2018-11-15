@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<a href="#" onclick="createProjectLoc()"><p><center><button class="buttonHome">Create Project</button></center></p></a>
+<div id="navbar">
+  <a class="active" href="javascript:void(0)">Home</a>
+  <a href="{{ url_for('dashboard') }}" >Dashboard</a>
+  <a style = "float: right;" href="{{ url_for('login') }}">Logout</a>
+</div>
+
+<div class="content">
+<a href="#" onclick="createProjectLoc()"><p><center><button class="buttonHome">Create Project</button></center></p></a>
 	<a href="#" onclick="viewProjectLoc()"><p><center><button class="buttonHome">View Project</button></center></p></a>
 	<a href="#" onclick="editProjectLoc()"><p><center><button class="buttonHome">Edit Project</button></center></p></a>
+</div>
 {% endblock %}

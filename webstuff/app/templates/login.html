@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }}
+		<span style = "float: left; position: relative; left: 40%">
+		<p>
+			{{ form.username.label }}<br>
+			{{ form.username(class="input") }} <br>
+			{% for error in form.username.errors %}
+			<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.password.label }}<br>
+			{{ form.password(class = "input") }} <br> 
+			{% for error in form.password.errors %}
+			<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.remember_me() }}
+		<span style = "font-size: 18px">{{ form.remember_me.label() }}</span>
+		</p>
+		<p>{{ form.submit(class = "buttonSubmit") }}</p>
+		</span>
+	</form>
+{% endblock %}
