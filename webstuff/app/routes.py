@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, CreateProjectForm
 from app.models import User
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -43,7 +43,10 @@ def home():
 	return render_template('home.html', title = 'Home')
 @app.route('/createProject', methods=['GET','POST'])
 def createProjectPage():
-    return render_template('createProject.html', title = 'Create Project')
+	form = CreateProjectForm()
+	if form.validate_on_submit():
+		return redirect(url_for('home'))
+	return render_template('createProject.html', title = 'Create Project', form=form)
 @app.route('/editProject')
 def editProjectPage():
     return render_template('editProject.html', title = 'Edit Project')
