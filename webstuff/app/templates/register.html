@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<form action="" method="post" novalidate>
+	<form action="" method="post">
 		{{ form.hidden_tag() }}
 		<span style = "float: left; position: relative; left: 40%">
 		<p>
 			{{ form.username.label }}<br>
 			{{ form.username(class="input") }} <br>
 			{% for error in form.username.errors %}
+			<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.email.label }}<br>
+			{{ form.email(class = "input") }} <br> 
+			{% for error in form.email.errors %}
 			<span style = "color: red; font-size: 18px">[{{ error }}]</span>
 			{% endfor %}
 		</p>
@@ -19,13 +26,16 @@
 			{% endfor %}
 		</p>
 		<p>
-			{{ form.remember_me() }}
-		<span style = "font-size: 16px">{{ form.remember_me.label() }}</span>
+			{{ form.password2.label }}<br>
+			{{ form.password2(class = "input") }} <br> 
+			{% for error in form.password2.errors %}
+			<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+			{% endfor %}
 		</p>
 		<p>
 		{{ form.submit(class = "buttonSubmit") }}
-		<a href="{{ url_for('register') }}" style="font-size: 18px"> Create New User</a>
+		<button type="button" onclick="homeLoc()" class="buttonCancel">Cancel</button>
 		</p>
-	</span>	
+		</span>
 	</form>
 {% endblock %}
