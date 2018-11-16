@@ -4,7 +4,7 @@ Some useful commands, used in the python terminal, in project website directory:
 or      set FLASK_APP=Website.py		(on windows)
 	flask run
 	flask db init				for initial database creation 
-	flask db migrate -m "your db table)	for initial database migration
+	flask db migrate -m "your db table"	for initial database migration
 	flask db upgrade			updates migrations to latest version
 	flask db downgrade			reverts migrations to previous version
 
