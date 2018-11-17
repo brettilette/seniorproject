@@ -13,5 +13,5 @@ pip install
     tweepy
     textblob
 secrets.py
-selenium chromedriver
+selenium chromedriver 2.43 (varies depending on chrome version)
 google-chrome (installed and in PATH)
