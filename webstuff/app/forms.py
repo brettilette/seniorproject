@@ -29,3 +29,7 @@ class RegistrationForm(FlaskForm):
 class CreateProjectForm(FlaskForm):
 	company = StringField('Target Company', validators=[DataRequired()])
 	submit = SubmitField('Submit')
+
+class EditProjectForm(FlaskForm):
+	account = StringField('Account Name')
+	submit = SubmitField('Submit')
