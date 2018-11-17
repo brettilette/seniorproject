@@ -58,4 +58,6 @@ def editProjectPage():
 	return render_template('editProject.html', title = 'Edit Project', form=form)
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', title = 'Dashboard')
+	iframe = 'https://www.google.com/'
+	# set iframe to kibana dashboard 
+	return render_template('dashboard.html', title = 'Dashboard', iframe=iframe)
