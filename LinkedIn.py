@@ -118,7 +118,7 @@ def FindEmployees(company):
 # =============================================================================
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
-    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options)
+    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=options)
 # =============================================================================
 
     #browser = webdriver.Chrome(CHROMEDRIVER_PATH)
