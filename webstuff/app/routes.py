@@ -2,11 +2,12 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, CreateProjectForm, EditProjectForm
+from app.forms import LoginForm, RegistrationForm, CreateProjectForm, EditProjectForm, SelectProjectForm
 from app.models import User
 
 
 company = 'none'
+companies = [('test1', 'test1'), ('test2', 'test2')]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -61,3 +62,12 @@ def dashboard():
 	iframe = 'https://www.google.com/'
 	# set iframe to kibana dashboard 
 	return render_template('dashboard.html', title = 'Dashboard', iframe=iframe)
+@app.route('/selectProject', methods=['GET', 'POST'])
+def selectProject():
+	form = SelectProjectForm()
+	form.project.choices = companies
+	if request.method == 'POST':
+		global company
+		company = form.project.data
+		return redirect(url_for('home'))
+	return render_template('selectProject.html', title = 'Select Project', form=form)

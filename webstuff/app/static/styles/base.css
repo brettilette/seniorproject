@@ -96,3 +96,12 @@ body {
     cursor: pointer;
 }
 .buttonCancel:hover {opacity: 0.8;}
+
+.selectField{
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  height: 40px;
+  padding: 5px;
+  width: 200px
+}

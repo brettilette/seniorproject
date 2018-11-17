@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -32,4 +32,8 @@ class CreateProjectForm(FlaskForm):
 
 class EditProjectForm(FlaskForm):
 	account = StringField('Account Name')
+	submit = SubmitField('Submit')
+
+class SelectProjectForm(FlaskForm):
+	project = SelectField('Project', choices=[])
 	submit = SubmitField('Submit')
