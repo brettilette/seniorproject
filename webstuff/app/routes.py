@@ -50,9 +50,6 @@ def createProjectPage():
 @app.route('/editProject')
 def editProjectPage():
     return render_template('editProject.html', title = 'Edit Project')
-@app.route('/viewProject')
-def viewProjectPage():
-    return render_template('viewProject.html', title = 'View Project')
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html', title = 'Dashboard')
