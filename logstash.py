@@ -33,7 +33,7 @@ def grab_data():
 def send_to_logstash(payload):
     """Send the JSON of data from Neo4J to Logstash so it can be sent to kibana"""
 
-    r = requests.post(URL,json=payload)
+    r = requests.post(URL,json=payload,headers=HEADER)
     return r.json()
 
 
