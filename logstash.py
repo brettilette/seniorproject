@@ -5,7 +5,7 @@ import requests
 
 # Host and port of Logstash so the program knows where to send the data.
 # If the host IP or the port Logstash is listening to changes it must be changed here.
-URL = 'http://127.0.0.1:9200'
+URL = 'http://127.0.0.1:9200/sentiment/all/1'
 HEADER = {'content-type': 'application/json'}
 
 driver = GraphDatabase.driver(BOLT_ADDRESS, auth=basic_auth(DB_NAME, DB_AUTH))
