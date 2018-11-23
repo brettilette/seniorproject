@@ -6,6 +6,7 @@ from haveIbeenPawned import is_breached
 from twitter import getTweets
 from sentiment import sentiment_analysis
 from logstash import update_kibana
+from Glassdoor import glassdoor_reviews
 
 # Connect to neo4j
 app = Flask(__name__) #initializing web framework
@@ -76,12 +77,20 @@ class GetUpdateKibana(Resource):
         return json.loads(results)
 
 
+class GetGlassdoorReviews(Resource):
+    def get(self, company_name):
+        results = glassdoor_reviews(company_name)
+        results = """{"items": """ + results + "}"
+        return json.loads(results)
+
+
 api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
 api.add_resource(HaveIBeenPwned, '/get/HIBP/email/<email>')
 api.add_resource(GetTweetsSince, '/get/twitter/tweetssince/<handle>/<date>')
 api.add_resource(GetTweets, '/get/twitter/tweets/<handle>')
 api.add_resource(GetSentiment, '/get/sentiment/<text>')
 api.add_resource(GetUpdateKibana, '/get/kibana/update')
+api.add_resource(GetGlassdoorReviews, '/get/glassdoor/reviews/<company_name>')
 
 
 if __name__ == '__main__':
