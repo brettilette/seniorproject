@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_restful import Resource, Api
 import json
 from LinkedIn import FindEmployees
@@ -84,13 +84,13 @@ class GetGlassdoorReviews(Resource):
         return json.loads(results)
 
 
-api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
-api.add_resource(HaveIBeenPwned, '/get/HIBP/email/<email>')
-api.add_resource(GetTweetsSince, '/get/twitter/tweetssince/<handle>/<date>')
-api.add_resource(GetTweets, '/get/twitter/tweets/<handle>')
-api.add_resource(GetSentiment, '/get/sentiment/<text>')
-api.add_resource(GetUpdateKibana, '/get/kibana/update')
-api.add_resource(GetGlassdoorReviews, '/get/glassdoor/reviews/<company_name>')
+api.add_resource(GetLinkedInEmployees, '/linkedin/employees/<company_name>')
+api.add_resource(HaveIBeenPwned, '/HIBP/email/<email>')
+api.add_resource(GetTweetsSince, '/twitter/tweetssince/<handle>/<date>')
+api.add_resource(GetTweets, '/twitter/tweets/<handle>')
+api.add_resource(GetSentiment, '/sentiment/<text>')
+api.add_resource(GetUpdateKibana, '/kibana/update')
+api.add_resource(GetGlassdoorReviews, '/glassdoor/reviews/<company_name>')
 
 
 if __name__ == '__main__':
