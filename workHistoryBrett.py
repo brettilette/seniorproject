@@ -1,9 +1,11 @@
 from datetime import date
 import datetime
 import statistics
+from urllib.parse import unquote
 
 #returns a string with the output
 def workHistoryAnalyser(workHistory):
+    workHistory = unquote(workHistory)
     dateProcessing = None
     startDateParse = []
     endDateParse = []
@@ -50,10 +52,18 @@ def workHistoryAnalyser(workHistory):
             anomalousPos.append(count)
         count += 1
 
-    returnString = "The average amount of days worked is " + str(average) + " days with a standard deviation of " + str(stdDev) + "."
-    for z in anomalousPos:
-        returnString += "\nAnomalous work history data at index [" + str(z) + "]. Only " + str(days[z]) + " days worked at this job." 
+    returnString = """{
+	"items": [{
+		"averageDaysWorked": "%s",
+		"stdDev": "%s",
+        "anomalies": [""" % (str(average),str(stdDev))
 
+    for z in anomalousPos:
+        returnString += """{ "index": "%s", "days": "%s"},""" % (str(z),str(days[z]))
+
+    if returnString[-1] == ",":
+        returnString = returnString[:-1]
+    returnString += """]}]}"""
     print(returnString)
 
     return returnString
@@ -89,6 +99,8 @@ def dateParser(date):
     returnArray[0] = int(date[1]) 
     return returnArray
 
-testData = ["Jan 2007 – Nov 2010", "Nov 2010 – Oct 2014", "Oct 2014 – Jun 2018", "Jun 2018 – Aug 2018", "Aug 2018 – Present"]
 
-workHistoryAnalyser(testData)
+if __name__ == '__main__':
+    testData = ["Jan 2007 – Nov 2010", "Nov 2010 – Oct 2014", "Oct 2014 – Jun 2018", "Jun 2018 – Aug 2018", "Aug 2018 – Present"]
+
+    workHistoryAnalyser(testData)

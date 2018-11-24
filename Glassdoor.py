@@ -62,4 +62,4 @@ def glassdoor_reviews(company):
     print("Done!")
     
     browser.close()    
-    return pd.DataFrame({'Pros': pros, 'Cons': cons})
+    return pd.DataFrame({'Pros': pros, 'Cons': cons}).to_json(orient='records')

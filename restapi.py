@@ -7,6 +7,8 @@ from twitter import getTweets
 from sentiment import sentiment_analysis
 from logstash import update_kibana
 from Glassdoor import glassdoor_reviews
+import workHistoryBrett
+import workHistoryJames
 
 # Connect to neo4j
 app = Flask(__name__) #initializing web framework
@@ -84,6 +86,23 @@ class GetGlassdoorReviews(Resource):
         return json.loads(results)
 
 
+class GetWorkHistoryAnalysisBrett(Resource):
+    def get(self, history):
+        results = workHistoryBrett.workHistoryAnalyser(history)
+        return json.loads(results)
+
+
+class GetWorkHistoryAnalysisJames(Resource):
+    def get(self, history,target):
+        hasAnomaly = workHistoryJames.workHistoryAnomaly(history,target)
+
+        if hasAnomaly:
+            results ="""{hasAnomaly: "True"}"""
+        else:
+            results = """{hasAnomaly: "False"}"""
+        return json.loads(results)
+
+
 api.add_resource(GetLinkedInEmployees, '/linkedin/employees/<company_name>')
 api.add_resource(HaveIBeenPwned, '/HIBP/email/<email>')
 api.add_resource(GetTweetsSince, '/twitter/tweetssince/<handle>/<date>')
@@ -91,6 +110,8 @@ api.add_resource(GetTweets, '/twitter/tweets/<handle>')
 api.add_resource(GetSentiment, '/sentiment/<text>')
 api.add_resource(GetUpdateKibana, '/kibana/update')
 api.add_resource(GetGlassdoorReviews, '/glassdoor/reviews/<company_name>')
+api.add_resource(GetWorkHistoryAnalysisBrett, '/workhistory/brett/<history>')
+api.add_resource(GetWorkHistoryAnalysisJames, '/workhistory/james/<history>/<target>')
 
 
 if __name__ == '__main__':
