@@ -73,7 +73,9 @@ def dateParser(date):
     returnArray[0] = int(date[1]) 
     return returnArray
 
-#testData = ["Oct 1990 – Jun 1995", "Jun 1995 – Aug 2000", "Aug 2000 – May 2005", "May 2005 – Jul 2010", "Jul 2010 – Sept 2011"]
-#testSignifier = [0,0,0,0,1]
-    
-#workHistoryAnomaly(testData,testSignifier)
+
+if __name__ == '__main__':
+    testData = ["Oct 1990 – Jun 1995", "Jun 1995 – Aug 2000", "Aug 2000 – May 2005", "May 2005 – Jul 2010", "Jul 2010 – Sept 2011"]
+    testSignifier = [0,0,0,0,1]
+
+    print(workHistoryAnomaly(testData,testSignifier))

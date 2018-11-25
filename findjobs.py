@@ -34,6 +34,38 @@ def find_jobs():
             job.append("Sentiment")
             jobs.append(job)
 
+    results = look_for_reviews()
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("Glassdoor")
+            jobs.append(job)
+
+    results = look_for_review_sentiment()
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("SentimentReview")
+            jobs.append(job)
+
+    results = look_for_workhistory_brett()
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("WorkhistoryBrett")
+            jobs.append(job)
+
+    results = look_for_workhistory_james()
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("WorkhistoryJames")
+            jobs.append(job)
+
     return jobs
 
 
@@ -80,6 +112,74 @@ def look_for_tweet_sentiment():
             AS job"""
 
     query = session.run(cypher, time=twitter_timeout_in_seconds)
+    session.close()
+
+    results = [job["job"] for job in query]
+
+    return results
+
+
+def look_for_reviews():
+
+    session = driver.session()
+    cypher = """MATCH (c:Company)
+    RETURN
+        CASE WHEN exists(c.LastSeenByGlassdoor) AND duration.inSeconds(c.LastSeenByGlassdoor, datetime()).seconds > {time}
+        THEN id(c)
+        WHEN NOT exists(c.LastSeenByGlassdoor)
+        THEN id(c)
+        END AS job"""
+    query = session.run(cypher, time=linkedin_timeout_in_seconds)
+    session.close()
+
+    results = [job["job"] for job in query]
+
+    return results
+
+
+def look_for_review_sentiment():
+
+    session = driver.session()
+
+    cypher = """MATCH (t:Review)
+            WHERE NOT exists(t.LastSeenBySentiment)
+            RETURN id(t)
+            AS job"""
+
+    query = session.run(cypher)
+    session.close()
+
+    results = [job["job"] for job in query]
+
+    return results
+
+
+def look_for_workhistory_brett():
+
+    session = driver.session()
+
+    cypher = """MATCH (t:LinkedInAccount)
+            WHERE NOT exists(t.LastSeenByWorkhistoryBrett)
+            RETURN id(t)
+            AS job"""
+
+    query = session.run(cypher)
+    session.close()
+
+    results = [job["job"] for job in query]
+
+    return results
+
+def look_for_workhistory_james():
+
+    session = driver.session()
+
+    cypher = """MATCH (t:LinkedInAccount)
+            WHERE NOT exists(t.LastSeenByWorkhistoryJames) AND exists(t.targetSignifier)
+            RETURN id(t)
+            AS job"""
+
+    query = session.run(cypher)
     session.close()
 
     results = [job["job"] for job in query]

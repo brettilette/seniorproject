@@ -1,10 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_restful import Resource, Api
 import json
 from LinkedIn import FindEmployees
 from haveIbeenPawned import is_breached
 from twitter import getTweets
 from sentiment import sentiment_analysis
+from logstash import update_kibana
+from Glassdoor import glassdoor_reviews
+import workHistoryBrett
+import workHistoryJames
 
 # Connect to neo4j
 app = Flask(__name__) #initializing web framework
@@ -68,11 +72,46 @@ class GetSentiment(Resource):
         return json.loads(results)
 
 
-api.add_resource(GetLinkedInEmployees, '/get/linkedin/employees/<company_name>')
-api.add_resource(HaveIBeenPwned, '/get/HIBP/email/<email>')
-api.add_resource(GetTweetsSince, '/get/twitter/tweetssince/<handle>/<date>')
-api.add_resource(GetTweets, '/get/twitter/tweets/<handle>')
-api.add_resource(GetSentiment, '/get/sentiment/<text>')
+class GetUpdateKibana(Resource):
+    def get(self):
+        update_kibana()
+        results = """{"status": "completed"}"""
+        return json.loads(results)
+
+
+class GetGlassdoorReviews(Resource):
+    def get(self, company_name):
+        results = glassdoor_reviews(company_name)
+        results = """{"items": """ + results + "}"
+        return json.loads(results)
+
+
+class GetWorkHistoryAnalysisBrett(Resource):
+    def get(self, history):
+        results = workHistoryBrett.workHistoryAnalyser(history)
+        return json.loads(results)
+
+
+class GetWorkHistoryAnalysisJames(Resource):
+    def get(self, history,target):
+        hasAnomaly = workHistoryJames.workHistoryAnomaly(history,target)
+
+        if hasAnomaly:
+            results ="""{hasAnomaly: "True"}"""
+        else:
+            results = """{hasAnomaly: "False"}"""
+        return json.loads(results)
+
+
+api.add_resource(GetLinkedInEmployees, '/linkedin/employees/<company_name>')
+api.add_resource(HaveIBeenPwned, '/HIBP/email/<email>')
+api.add_resource(GetTweetsSince, '/twitter/tweetssince/<handle>/<date>')
+api.add_resource(GetTweets, '/twitter/tweets/<handle>')
+api.add_resource(GetSentiment, '/sentiment/<text>')
+api.add_resource(GetUpdateKibana, '/kibana/update')
+api.add_resource(GetGlassdoorReviews, '/glassdoor/reviews/<company_name>')
+api.add_resource(GetWorkHistoryAnalysisBrett, '/workhistory/brett/<history>')
+api.add_resource(GetWorkHistoryAnalysisJames, '/workhistory/james/<history>/<target>')
 
 
 if __name__ == '__main__':
