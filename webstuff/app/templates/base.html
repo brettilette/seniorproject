@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/base.css') }}">
+<title>{{ title }} - CSA</title>
+</head>
+<body>
+
+<div class="header">
+  <h2>Company Sentiment Analyzer</h2>
+  <h3>{{title}}</h3>
+</div>
+
+{% block content %} 
+{% endblock %}
+
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+function loginLoc() 
+{
+    location.replace("login")
+}
+function homeLoc() 
+{
+    location.replace("home")
+}
+function createProjectLoc() 
+{
+    location.replace("createProject")
+}
+function editProjectLoc() 
+{
+    location.replace("editProject")
+}
+function dashboardLoc()
+{
+    location.replace("dashboard")
+}
+function selectProjectLoc()
+{
+    location.replace("selectProject")
+}
+</script>
+</body>
+</html>

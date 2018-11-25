@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="navbar">
+  <a href="{{ url_for('home') }}" >Home</a>
+  <a href="{{ url_for('dashboard') }}" >Dashboard</a>
+  <a style = "float: right;" href="{{ url_for('logout') }}">Logout</a>
+</div>
+<form action="" method="post" novalidate>
+	{{ form.hidden_tag() }}
+	<span style = "float: left; position: relative; left: 40%">
+	<p>
+		{{ form.company.label }}<br>
+		{{ form.company(class="input") }} <br>
+		{% for error in form.company.errors %}
+		<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+		{% endfor %}
+		<p>
+		{{ form.submit(class = "buttonSubmit") }}
+		<button type="button" onclick="homeLoc()" class="buttonCancel">Cancel</button>
+		</p>
+	</p>
+	</span>
+</form>
+{% endblock %}

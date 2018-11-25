@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="navbar">
+  <a class="active" href="javascript:void(0)">Home</a>
+  <a href="{{ url_for('dashboard') }}" >Dashboard</a>
+  <a style = "float: right;" href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<div class="content">
+	<p><center>Selected Project is: {{ company }} </center></p>
+	<a href="#" onclick="dashboardLoc()"><p><center><button class="buttonHome">Dashboard</button></center></p></a>
+	<a href="#" onclick="createProjectLoc()"><p><center><button class="buttonHome">Create Project</button></center></p></a>
+	<a href="#" onclick="selectProjectLoc()"><p><center><button class="buttonHome">Select Project</button></center></p></a>
+	<a href="#" onclick="editProjectLoc()"><p><center><button class="buttonHome">Edit Project</button></center></p></a>
+</div>
+{% endblock %}
