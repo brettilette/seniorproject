@@ -4,10 +4,11 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CreateProjectForm, EditProjectForm, SelectProjectForm
 from app.models import User
+from app.webfunctions import createNewTag, createNewCompany, createNewEmail, createNewTwitter
 
-
+tag = 0
 company = 'none'
-companies = [('test1', 'test1'), ('test2', 'test2')]
+companies = [('Company 1', 'Company 1'), ('Company 2', 'Company 2')]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,13 +50,16 @@ def home():
 def createProjectPage():
 	form = CreateProjectForm()
 	if form.validate_on_submit():
-		#add create project function
+		createNewCompany(form.company.data, tag)
 		return redirect(url_for('home'))
 	return render_template('createProject.html', title = 'Create Project', form=form)
 @app.route('/editProject', methods=['GET', 'POST'])
 def editProjectPage():
 	form = EditProjectForm()
-	#add edit project function
+	if form.validate_on_submit():
+		createNewEmail(form.email.data, tag)
+		createNewTwitter(form.twitter.data, tag)
+		return redirect(url_for('home'))
 	return render_template('editProject.html', title = 'Edit Project', form=form)
 @app.route('/dashboard')
 def dashboard():
