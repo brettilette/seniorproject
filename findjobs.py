@@ -50,21 +50,21 @@ def find_jobs():
             job.append("SentimentReview")
             jobs.append(job)
 
-    results = look_for_workhistory_brett()
-    for result in results:
-        if result != None:
-            job = []
-            job.append(result)
-            job.append("WorkhistoryBrett")
-            jobs.append(job)
-
-    results = look_for_workhistory_james()
-    for result in results:
-        if result != None:
-            job = []
-            job.append(result)
-            job.append("WorkhistoryJames")
-            jobs.append(job)
+    # results = look_for_workhistory_brett()
+    # for result in results:
+    #     if result != None:
+    #         job = []
+    #         job.append(result)
+    #         job.append("WorkhistoryBrett")
+    #         jobs.append(job)
+    #
+    # results = look_for_workhistory_james()
+    # for result in results:
+    #     if result != None:
+    #         job = []
+    #         job.append(result)
+    #         job.append("WorkhistoryJames")
+    #         jobs.append(job)
 
     return jobs
 
