@@ -22,8 +22,8 @@ def grab_data(tag):
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """}"""
 
+    print(somejson)
     return json.loads(somejson)
 
 
@@ -36,8 +36,11 @@ def grab_twitter_sentiment(tag):
     results = [polarity["polarity"] for polarity in query]
     somejson = """"tweetSentiment": ["""
     for result in results:
-        some_string = """{"polarity": %s},""" % (result)
-        somejson += some_string
+        if result != None:
+            some_string = """{
+            "polarity": %s
+            },""" % (result)
+            somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
     somejson += """],"""
@@ -62,7 +65,7 @@ def grab_review_sentiment(tag):
 
 
 def grab_total_workhistory(tag):
-    somejson = """"reviewSentiment": ["""
+    somejson = """"totalWorkhistory": ["""
 
     session = driver.session()
     cypher = """MATCH (t:LinkedInAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) WHERE exists(t.averageDaysWorked) return t.averageDaysWorked as thing"""
@@ -76,7 +79,7 @@ def grab_total_workhistory(tag):
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """],"""
+    somejson += """]},"""
 
     session = driver.session()
     cypher = """MATCH (t:LinkedInAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) WHERE exists(t.stdDev) return t.stdDev as thing"""
@@ -90,7 +93,7 @@ def grab_total_workhistory(tag):
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """],"""
+    somejson += """]},"""
 
     session = driver.session()
     cypher = """MATCH (t:LinkedInAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) WHERE exists(t.anomalies) return size(t.anomalies) as thing"""
@@ -104,7 +107,7 @@ def grab_total_workhistory(tag):
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """],"""
+    somejson += """]},"""
 
     session = driver.session()
     cypher = """MATCH (t:LinkedInAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) WHERE exists(t.hasAnomaly) AND t.hasAnomaly = True return t.hasAnomaly as thing"""
@@ -118,11 +121,11 @@ def grab_total_workhistory(tag):
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """],"""
+    somejson += """]},"""
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """],"""
+    somejson += """]},"""
     return somejson
 
 
@@ -138,4 +141,4 @@ def update_kibana(tag):
 
 
 if __name__ == '__main__':
-    update_kibana("Test")
+    update_kibana("test")

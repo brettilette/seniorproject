@@ -102,8 +102,6 @@ def sentiment_module(job):
         soup = bs4.BeautifulSoup(texts[0],'lxml').get_text()
         input = nltk.Text(soup)
 
-        print(soup)
-
         json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (input.concordance))
 
         if json.status_code == 200:
@@ -163,8 +161,6 @@ def sentiment_review_module(job):
         soup = bs4.BeautifulSoup(texts[0],'lxml').get_text()
         input = nltk.Text(soup)
 
-        print(soup)
-
         json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (input.concordance))
 
         if json.status_code == 200:
@@ -184,8 +180,6 @@ def sentiment_review_module(job):
     if texts[0] != None:
         soup = bs4.BeautifulSoup(texts[0],'lxml').get_text()
         input = nltk.Text(soup)
-
-        print(soup)
 
         json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (input.concordance))
 
