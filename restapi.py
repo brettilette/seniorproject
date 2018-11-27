@@ -73,8 +73,8 @@ class GetSentiment(Resource):
 
 
 class GetUpdateKibana(Resource):
-    def get(self):
-        update_kibana()
+    def get(self, tag):
+        update_kibana(tag)
         results = """{"status": "completed"}"""
         return json.loads(results)
 
@@ -108,7 +108,7 @@ api.add_resource(HaveIBeenPwned, '/HIBP/email/<email>')
 api.add_resource(GetTweetsSince, '/twitter/tweetssince/<handle>/<date>')
 api.add_resource(GetTweets, '/twitter/tweets/<handle>')
 api.add_resource(GetSentiment, '/sentiment/<text>')
-api.add_resource(GetUpdateKibana, '/kibana/update')
+api.add_resource(GetUpdateKibana, '/kibana/update/<tag>')
 api.add_resource(GetGlassdoorReviews, '/glassdoor/reviews/<company_name>')
 api.add_resource(GetWorkHistoryAnalysisBrett, '/workhistory/brett/<history>')
 api.add_resource(GetWorkHistoryAnalysisJames, '/workhistory/james/<history>/<target>')
