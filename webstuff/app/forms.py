@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Optional
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -31,7 +31,8 @@ class CreateProjectForm(FlaskForm):
 	submit = SubmitField('Submit')
 
 class EditProjectForm(FlaskForm):
-	account = StringField('Account Name')
+	email = StringField('Email Account', validators=[Email(), Optional()])
+	twitter = StringField('Twiter Handle', validators=[Optional()])
 	submit = SubmitField('Submit')
 
 class SelectProjectForm(FlaskForm):

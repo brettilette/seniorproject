@@ -7,7 +7,7 @@ from app.models import User
 
 
 company = 'none'
-companies = [('test1', 'test1'), ('test2', 'test2')]
+companies = [('Company 1', 'Company 1'), ('Company 1', 'Company 1')]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -55,7 +55,9 @@ def createProjectPage():
 @app.route('/editProject', methods=['GET', 'POST'])
 def editProjectPage():
 	form = EditProjectForm()
-	#add edit project function
+	if form.validate_on_submit():
+		#add edit project functions
+		return redirect(url_for('home'))
 	return render_template('editProject.html', title = 'Edit Project', form=form)
 @app.route('/dashboard')
 def dashboard():
