@@ -33,6 +33,7 @@ class CreateProjectForm(FlaskForm):
 class EditProjectForm(FlaskForm):
 	email = StringField('Email Account', validators=[Email(), Optional()])
 	twitter = StringField('Twiter Handle', validators=[Optional()])
+	linkedin = StringField("LinkedIn Profile", validators=[Optional()])
 	submit = SubmitField('Submit')
 
 class SelectProjectForm(FlaskForm):

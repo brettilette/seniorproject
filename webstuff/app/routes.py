@@ -4,10 +4,10 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CreateProjectForm, EditProjectForm, SelectProjectForm
 from app.models import User
+from app.webfunctions import *
 
-
+companies = getTags()
 company = 'none'
-companies = [('Company 1', 'Company 1'), ('Company 1', 'Company 1')]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,14 +49,20 @@ def home():
 def createProjectPage():
 	form = CreateProjectForm()
 	if form.validate_on_submit():
-		#add create project function
+		company = form.company.data
+		createProject(company,company)
 		return redirect(url_for('home'))
 	return render_template('createProject.html', title = 'Create Project', form=form)
 @app.route('/editProject', methods=['GET', 'POST'])
 def editProjectPage():
 	form = EditProjectForm()
 	if form.validate_on_submit():
-		#add edit project functions
+		if form.email.data != "":
+			insertEmailAccount(company, form.email.data)
+		if form.twitter.data != "":
+			insertTwitterAccount(company, form.twitter.data)
+		if form.linkedin.data != "":
+			insertLinkedInAccount(copmany, form.linkedin.data)
 		return redirect(url_for('home'))
 	return render_template('editProject.html', title = 'Edit Project', form=form)
 @app.route('/dashboard')
@@ -66,6 +72,8 @@ def dashboard():
 	return render_template('dashboard.html', title = 'Dashboard', iframe=iframe)
 @app.route('/selectProject', methods=['GET', 'POST'])
 def selectProject():
+	global companies 
+	companies = getTags()
 	form = SelectProjectForm()
 	form.project.choices = companies
 	if request.method == 'POST':
