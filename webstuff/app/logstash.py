@@ -3,12 +3,9 @@ from secrets import *
 import json
 import requests
 
-# Host and port of Logstash so the program knows where to send the data.
-# If the host IP or the port Logstash is listening to changes it must be changed here.
-URL = 'http://127.0.0.1:9200/sentiment/all/1' # TODO have the 1 change to a datetime object
-HEADER = {'content-type': 'application/json'}
 
-driver = GraphDatabase.driver(BOLT_ADDRESS, auth=basic_auth(DB_NAME, DB_AUTH))
+
+driver = GraphDatabase.driver("bolt://10.0.51.31:7687", auth=basic_auth("neo4j", 'N48Wk2w,=NE"A{SK'))
 # TODO comment this bad boy
 
 def grab_data(tag):
@@ -128,15 +125,20 @@ def grab_total_workhistory(tag):
     return somejson
 
 
-def send_to_logstash(payload):
+def send_to_logstash(tag, payload):
     """Send the JSON of data from Neo4J to Logstash so it can be sent to kibana"""
+
+    # Host and port of Logstash so the program knows where to send the data.
+    # If the host IP or the port Logstash is listening to changes it must be changed here.
+    URL = 'http://127.0.0.1:9200/sentiment/all/%s' % (tag)
+    HEADER = {'content-type': 'application/json'}
 
     r = requests.put(URL,json=payload,headers=HEADER)
     return r.json()
 
 
 def update_kibana(tag):
-    send_to_logstash(grab_data(tag))
+    send_to_logstash(tag, grab_data(tag))
 
 
 if __name__ == '__main__':
