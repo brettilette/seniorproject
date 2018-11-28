@@ -5,6 +5,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, CreateProjectForm, EditProjectForm, SelectProjectForm
 from app.models import User
 from app.webfunctions import *
+from app.logstash import update_kibana
 
 companies = getTags()
 company = 'none'
