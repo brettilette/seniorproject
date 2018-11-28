@@ -61,7 +61,7 @@ def insertLinkedInAccount(tag, address):
 
     session = driver.session()
 
-    query = """MERGE (t:Tag{name:{tag}}),(e:LinkedInAccount{address:{address}}),(w)-[:HAS_TAG]->(t)"""
+    query = """MERGE (t:Tag{name:{tag}}),(e:LinkedInAccount{address:{address}}),(e)-[:HAS_TAG]->(t)"""
 
     session.run(query, tag=tag, address=address)
 
