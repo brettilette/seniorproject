@@ -22,6 +22,12 @@
 		<span style = "color: red; font-size: 18px">[{{ error }}]</span>
 		{% endfor %}
 		<p>
+		{{ form.linkedin.label }}<br>
+		{{ form.linkedin(class="input") }} <br>
+		{% for error in form.linkedin.errors %}
+		<span style = "color: red; font-size: 18px">[{{ error }}]</span>
+		{% endfor %}
+		<p>
 		{{ form.submit(class = "buttonSubmit") }}
 		<button type="button" onclick="homeLoc()" class="buttonCancel">Cancel</button>
 		</p>

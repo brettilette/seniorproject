@@ -49,6 +49,7 @@ def home():
 def createProjectPage():
 	form = CreateProjectForm()
 	if form.validate_on_submit():
+		global company
 		company = form.company.data
 		createProject(company,company)
 		return redirect(url_for('home'))
@@ -62,11 +63,12 @@ def editProjectPage():
 		if form.twitter.data != "":
 			insertTwitterAccount(company, form.twitter.data)
 		if form.linkedin.data != "":
-			insertLinkedInAccount(copmany, form.linkedin.data)
+			insertLinkedInAccount(company, form.linkedin.data)
 		return redirect(url_for('home'))
 	return render_template('editProject.html', title = 'Edit Project', form=form)
 @app.route('/dashboard')
 def dashboard():
+	update_kibana(company)
 	iframe = 'https://www.google.com/'
 	# set iframe to kibana dashboard 
 	return render_template('dashboard.html', title = 'Dashboard', iframe=iframe)
