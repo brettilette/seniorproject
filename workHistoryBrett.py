@@ -6,6 +6,13 @@ from urllib.parse import unquote
 #returns a string with the output
 def workHistoryAnalyser(workHistory):
     workHistory = unquote(workHistory)
+    workHistory= workHistory.replace("\'","")
+    workHistory = workHistory[1:]
+    workHistory = workHistory[:-1]
+    workHistory = workHistory.split(",")
+    for i in range(0, len(workHistory)):
+        if workHistory[i][0] == " ":
+            workHistory[i] = workHistory[i][1:]
     dateProcessing = None
     startDateParse = []
     endDateParse = []
