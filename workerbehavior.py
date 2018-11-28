@@ -227,6 +227,14 @@ def workhistory_brett_module(job):
 
             session.run(query, id=job)
 
+        if json.status_code == 500:
+            query = """MATCH (c)-[:HAS_TAG]->(t:Tag)
+                    WHERE id(c) = {id}
+                    SET c.LastSeenByWorkhistoryBrett = datetime(),
+                    c.error = "WorkhistoryBrett500"
+                    """
+
+            session.run(query, id=job)
     session.close()
 
 

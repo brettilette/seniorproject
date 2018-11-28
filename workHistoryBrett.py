@@ -13,6 +13,7 @@ def workHistoryAnalyser(workHistory):
     for i in range(0, len(workHistory)):
         if workHistory[i][0] == " ":
             workHistory[i] = workHistory[i][1:]
+    print(workHistory)
     dateProcessing = None
     startDateParse = []
     endDateParse = []
@@ -63,10 +64,10 @@ def workHistoryAnalyser(workHistory):
 	"items": [{
 		"averageDaysWorked": "%s",
 		"stdDev": "%s",
-        "anomalies": [""" % (str(average),str(stdDev))
+        "anomalousIndices": [""" % (str(average),str(stdDev))
 
     for z in anomalousPos:
-        returnString += """{ "index": "%s", "days": "%s"},""" % (str(z),str(days[z]))
+        returnString += """"%s",""" % (str(z))
 
     if returnString[-1] == ",":
         returnString = returnString[:-1]

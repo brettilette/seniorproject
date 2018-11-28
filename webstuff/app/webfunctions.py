@@ -1,7 +1,8 @@
 from neo4j.v1 import GraphDatabase, basic_auth
-from secrets import *
 
-driver = GraphDatabase.driver(BOLT_ADDRESS, auth=basic_auth(DB_NAME, DB_AUTH))
+
+driver = GraphDatabase.driver("bolt://10.0.51.31:7687", auth=basic_auth("neo4j", 'N48Wk2w,=NE"A{SK'))
+
 
 def createProject(tag,company):
     session = driver.session()
@@ -34,13 +35,14 @@ def getTags():
 
     return tags
 
+
 def insertTwitterAccount(tag, handle):
     if handle[0] != "@":
         handle = "@" + handle
 
     session = driver.session()
 
-    query = """MERGE (t:Tag{name:{tag}}),(w:TwitterAccount{handle:{handle}}),(w)-[:HAS_TAG]->(t)"""
+    query = """MERGE (t:Tag {name: {tag}})<-[:HAS_TAG]-(w:TwitterAccount {handle: {handle}})"""
 
     session.run(query, tag=tag, handle=handle)
 
@@ -51,21 +53,23 @@ def insertEmailAccount(tag, address):
 
     session = driver.session()
 
-    query = """MERGE (t:Tag{name:{tag}}),(e:EmailAccount{address:{address}}),(e)-[:HAS_TAG]->(t)"""
+    query = """MERGE (t:Tag{name:{tag}})<-[:HAS_TAG]-(e:EmailAccount{address:{address}})"""
 
     session.run(query, tag=tag, address=address)
 
     session.close()
+
 
 def insertLinkedInAccount(tag, address):
 
     session = driver.session()
 
-    query = """MERGE (t:Tag{name:{tag}}),(e:LinkedInAccount{address:{address}}),(e)-[:HAS_TAG]->(t)"""
+    query = """MERGE (t:Tag{name:{tag}})<-[:HAS_TAG]-(e:LinkedInAccount{address:{address}})"""
 
     session.run(query, tag=tag, address=address)
 
     session.close()
+
 
 if __name__ == '__main__':
     createProject("test2","Wal-mart")
