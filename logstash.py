@@ -22,7 +22,7 @@ def grab_data(tag):
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-
+    print(somejson)
     return json.loads(somejson)
 
 
@@ -36,9 +36,7 @@ def grab_twitter_sentiment(tag):
     somejson = """"tweetSentiment": ["""
     for result in results:
         if result != None:
-            some_string = """{
-            "polarity": %s
-            },""" % (result)
+            some_string = """%s,""" % (result)
             somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -55,7 +53,7 @@ def grab_review_sentiment(tag):
     results = [polarity["polarity"] for polarity in query]
     somejson = """"reviewSentiment": ["""
     for result in results:
-        some_string = """{"polarity": %s},""" % (result)
+        some_string = """%s,""" % (result)
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -74,7 +72,7 @@ def grab_total_workhistory(tag):
     results = [thing["thing"] for thing in query]
     somejson += """{"averageDaysWorked": ["""
     for result in results:
-        some_string = """{"days": %s},""" % (result)
+        some_string = """%s,""" % (result)
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -88,7 +86,7 @@ def grab_total_workhistory(tag):
     results = [thing["thing"] for thing in query]
     somejson += """{"standardDeviations": ["""
     for result in results:
-        some_string = """{"stdDev": %s},""" % (result)
+        some_string = """%s,""" % (result)
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -102,7 +100,7 @@ def grab_total_workhistory(tag):
     results = [thing["thing"] for thing in query]
     somejson += """{"totalAnomalies": ["""
     for result in results:
-        some_string = """{"numberOfAnomalies": %s},""" % (result)
+        some_string = """%s,""" % (result)
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -116,7 +114,7 @@ def grab_total_workhistory(tag):
     results = [thing["thing"] for thing in query]
     somejson += """{"relevantAnomalies": ["""
     for result in results:
-        some_string = """{"hasAnomaly": %s},""" % (result)
+        some_string = """%s,""" % (result)
         somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
