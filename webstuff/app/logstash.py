@@ -16,6 +16,7 @@ def grab_data(tag):
     somejson += grab_twitter_sentiment(tag)
     somejson += grab_review_sentiment(tag)
     somejson += grab_total_workhistory(tag)
+    somejson += grab_pwned_emails(tag)
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -122,6 +123,23 @@ def grab_total_workhistory(tag):
     if somejson[-1] == ",":
         somejson = somejson[:-1]
     somejson += """]},"""
+    return somejson
+
+
+def grab_pwned_emails(tag):
+    session = driver.session()
+    cypher = """MATCH (t:EmailAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) return COUNT(t) as polarity"""
+    query = session.run(cypher, tag=tag)
+    session.close()
+
+    results = [polarity["polarity"] for polarity in query]
+    somejson = """"pwnedEmails": ["""
+    for result in results:
+        some_string = """{"number": %s},""" % (result)
+        somejson += some_string
+    if somejson[-1] == ",":
+        somejson = somejson[:-1]
+    somejson += """],"""
     return somejson
 
 

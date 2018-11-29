@@ -1,6 +1,8 @@
 import pyHIBP
+from urllib.parse import unquote
 
 def is_breached(email):
+    email = unquote(email)
     resp = pyHIBP.get_account_breaches(account=email, truncate_response=True)
     if resp:
         return True

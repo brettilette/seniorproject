@@ -218,7 +218,7 @@ def workhistory_brett_module(job):
                     SET c.LastSeenByWorkhistoryBrett = datetime(),
                     c.averageDaysWorked = history.averageDaysWorked,
                     c.stdDev = history.stdDev,
-                    c.anomalies = history.anomalies"""
+                    c.anomalousIndices = history.anomalousIndices"""
 
             session.run(query, json=json.json(), id=job)
 
@@ -284,7 +284,7 @@ def hibp_module(job):
 
     if texts[0] != None:
 
-        json = requests.get('http://127.0.0.1:8000/hibp/email/%s' % (texts[0]))
+        json = requests.get('http://127.0.0.1:8000/HIBP/email/%s' % (texts[0]))
 
         if json.status_code == 200:
             query = """WITH {json} as data
