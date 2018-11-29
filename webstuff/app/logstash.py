@@ -19,7 +19,8 @@ def grab_data(tag):
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-
+    somejson += """}"""
+    print(somejson)
     return json.loads(somejson)
 
 
@@ -33,9 +34,7 @@ def grab_twitter_sentiment(tag):
     somejson = """"tweetSentiment": ["""
     for result in results:
         if result != None:
-            some_string = """{
-            "polarity": %s
-            },""" % (result)
+            some_string = """{"polarity": %s},""" % (result)
             somejson += some_string
     if somejson[-1] == ",":
         somejson = somejson[:-1]
@@ -121,7 +120,7 @@ def grab_total_workhistory(tag):
 
     if somejson[-1] == ",":
         somejson = somejson[:-1]
-    somejson += """]},"""
+    somejson += """],"""
     return somejson
 
 
@@ -159,4 +158,4 @@ def update_kibana(tag):
 
 
 if __name__ == '__main__':
-    update_kibana("test")
+    update_kibana("Cybriant")
