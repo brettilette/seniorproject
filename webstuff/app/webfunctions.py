@@ -42,7 +42,8 @@ def insertTwitterAccount(tag, handle):
 
     session = driver.session()
 
-    query = """MERGE (w:TwitterAccount {handle: {handle}})-[:HAS_TAG]->(t:Tag {name: {tag}})"""
+    query = """MATCH (t:Tag {name: {tag}})
+    MERGE (w:TwitterAccount {handle: {handle}})-[:HAS_TAG]->(t)"""
 
     session.run(query, tag=tag, handle=handle)
 
@@ -53,7 +54,8 @@ def insertEmailAccount(tag, address):
 
     session = driver.session()
 
-    query = """MERGE (e:EmailAccount{address:{address}})-[:HAS_TAG]->(t:Tag{name:{tag}})"""
+    query = """MATCH (t:Tag {name: {tag}})
+    MERGE (e:EmailAccount{address:{address}})-[:HAS_TAG]->(t)"""
 
     session.run(query, tag=tag, address=address)
 
@@ -64,7 +66,8 @@ def insertLinkedInAccount(tag, address):
 
     session = driver.session()
 
-    query = """MERGE (e:LinkedInAccount{address:{address}})-[:HAS_TAG]->(t:Tag{name:{tag}})"""
+    query = """MATCH (t:Tag {name: {tag}})
+    MERGE (e:LinkedInAccount{address:{address}})-[:HAS_TAG]->(t)"""
 
     session.run(query, tag=tag, address=address)
 
