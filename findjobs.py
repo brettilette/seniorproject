@@ -66,6 +66,14 @@ def find_jobs():
             job.append("WorkhistoryJames")
             jobs.append(job)
 
+    results = look_for_emails()
+    for result in results:
+        if result != None:
+            job = []
+            job.append(result)
+            job.append("HIBP")
+            jobs.append(job)
+
     return jobs
 
 
