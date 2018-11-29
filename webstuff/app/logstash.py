@@ -125,7 +125,7 @@ def grab_total_workhistory(tag):
 
 def grab_pwned_emails(tag):
     session = driver.session()
-    cypher = """MATCH (t:EmailAccount)-[:HAS_TAG]->(:Tag {name: {tag}}) return COUNT(t) as polarity"""
+    cypher = """MATCH (t:EmailAccount {pwned:"true"})-[:HAS_TAG]->(:Tag {name: {tag}}) return COUNT(t) as polarity"""
     query = session.run(cypher, tag=tag)
     session.close()
 
