@@ -70,7 +70,7 @@ def editProjectPage():
 @app.route('/dashboard')
 def dashboard():
 	update_kibana(company)
-	iframe = """http://10.0.51.31:5601/app/kibana#/visualize/edit/aebb7180-f1b3-11e8-bb7c-375595aa469f?embed=true&_g=()"""
+	iframe = """http://10.0.51.31:5601/app/kibana#/dashboard/b9a30930-f390-11e8-ac38-65aace56d437?embed=true&_g=()"""
 	# set iframe to kibana dashboard 
 	return render_template('dashboard.html', title = 'Dashboard', iframe=iframe)
 @app.route('/selectProject', methods=['GET', 'POST'])
