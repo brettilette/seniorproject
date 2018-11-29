@@ -1,5 +1,4 @@
 from neo4j.v1 import GraphDatabase, basic_auth
-from secrets import *
 import json
 import requests
 
