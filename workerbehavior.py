@@ -1,8 +1,6 @@
 from neo4j.v1 import GraphDatabase, basic_auth
 from secrets import *
 import requests
-import bs4
-import nltk
 import re
 
 driver = GraphDatabase.driver(BOLT_ADDRESS, auth=basic_auth(DB_NAME, DB_AUTH))
@@ -162,10 +160,8 @@ def sentiment_review_module(job):
     texts = [result["n.pros"] for result in text]
 
     if texts[0] != None:
-        soup = bs4.BeautifulSoup(texts[0],'lxml').get_text()
-        input = nltk.Text(soup)
 
-        json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (input.concordance))
+        json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (texts[0]))
 
         if json.status_code == 200:
             query = """WITH {json} as data
@@ -182,10 +178,9 @@ def sentiment_review_module(job):
     texts = [result["n.cons"] for result in text]
 
     if texts[0] != None:
-        soup = bs4.BeautifulSoup(texts[0],'lxml').get_text()
-        input = nltk.Text(soup)
 
-        json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (input.concordance))
+
+        json = requests.get('http://127.0.0.1:8000/sentiment/%s' % (texts[0]))
 
         if json.status_code == 200:
             query = """WITH {json} as data
