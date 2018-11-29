@@ -20,7 +20,6 @@ def grab_data(tag):
     if somejson[-1] == ",":
         somejson = somejson[:-1]
     somejson += """}"""
-    print(somejson)
     return json.loads(somejson)
 
 
