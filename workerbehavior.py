@@ -29,6 +29,9 @@ def do_work(job):
     if job[1] == "WorkhistoryJames":
         workhistory_james_module(job[0])
 
+    if job[1] == "HIBP":
+        hibp_module(job[0])
+
 
 def linkedin_module(job):
     session = driver.session()
@@ -265,6 +268,38 @@ def workhistory_james_module(job):
                     WHERE id(c) = {id}
                     SET c.LastSeenByWorkhistoryJames = datetime(),
                     c.error = "WorkhistoryJames404"
+                    """
+
+            session.run(query, id=job)
+
+    session.close()
+
+
+def hibp_module(job):
+    session = driver.session()
+
+    text = session.run("MATCH (n)\nWHERE id(n) = {id}\nRETURN n.address", id=job)
+    texts = [result["n.address"] for result in text]
+
+    if texts[0] != None:
+
+        json = requests.get('http://127.0.0.1:8000/hibp/email/%s' % (texts[0]))
+
+        if json.status_code == 200:
+            query = """WITH {json} as data
+                    UNWIND data.items as hibp
+                    MATCH (c)-[:HAS_TAG]->(t:Tag)
+                    WHERE id(c) = {id}
+                    SET c.LastSeenByHIBP = datetime(),
+                    c.pwned = hibp.pwned"""
+
+            session.run(query, json=json.json(), id=job)
+
+        if json.status_code == 404:
+            query = """MATCH (c)-[:HAS_TAG]->(t:Tag)
+                    WHERE id(c) = {id}
+                    SET c.LastSeenByHIBP = datetime(),
+                    c.error = "HIBP404"
                     """
 
             session.run(query, id=job)

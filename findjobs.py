@@ -185,3 +185,19 @@ def look_for_workhistory_james():
     results = [job["job"] for job in query]
 
     return results
+
+
+def look_for_emails():
+    session = driver.session()
+
+    cypher = """MATCH (t:EmailAccount)
+                WHERE NOT exists(t.LastSeenByHIBP)
+                RETURN id(t)
+                AS job"""
+
+    query = session.run(cypher)
+    session.close()
+
+    results = [job["job"] for job in query]
+
+    return results
