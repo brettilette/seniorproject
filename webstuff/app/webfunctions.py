@@ -1,7 +1,7 @@
 from neo4j.v1 import GraphDatabase, basic_auth
 
 
-driver = GraphDatabase.driver("bolt://10.0.51.31:7687", auth=basic_auth("neo4j", 'N48Wk2w,=NE"A{SK'))
+driver = GraphDatabase.driver("bolt://10.0.51.32:7687", auth=basic_auth("neo4j", 'N48Wk2w,=NE"A{SK'))
 
 
 def createProject(tag,company):
